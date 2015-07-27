@@ -45,7 +45,7 @@ declare -a baselines=( 1.554 1.565 1.580 1.596 1.609 )
 
 for v in ${baselines[@]}; do
     # for mainline up to $v, which advertises the latest core
-    generate -no-experimental -www ./www2/$v -cap $v.999 -capCore 999
+    generate -no-experimental -www ./www2/$v -cap $v.999 -capCore 1.620
     sanity-check ./www2/$v
 
     # for LTS
