@@ -24,9 +24,13 @@ rsync -acvz www2/ --exclude=/updates --delete ${RSYNC_USER}@${UPDATES_SITE}:/var
 # push generated htaccess file on the azure file storage produpdatesproxy
 # This file is used by updates.azure.jenkins.io as fallback service for updates.jenkins.io
 
-az storage file upload-batch \
-    --account-name produpdatesproxy \
-    --account-key "${UPDATESPROXY_STORAGEACCOUNTKEY}" \
-    --source ./fallback \
-    --destination updates-proxy \
-    --validate-content
+if [ -n "${UPDATESPROXY_STORAGEACCOUNTKEY}" ]; then
+  az storage file upload-batch \
+      --account-name produpdatesproxy \
+      --account-key "${UPDATESPROXY_STORAGEACCOUNTKEY}" \
+      --source ./fallback \
+      --destination updates-proxy \
+      --validate-content
+else
+  echo 'UPDATESPROXY_STORAGEACCOUNTKEY empty, must contain produpdatesproxy storage account key'
+fi
